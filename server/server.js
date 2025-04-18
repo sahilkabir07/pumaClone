@@ -18,7 +18,9 @@ mongoose
 
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
-
+app.get("/", (req, res) => {
+  res.send("hii..");
+});
 app.listen(process.env.PORT, () => {
   console.log(`🚀 Server running at http://localhost:${process.env.PORT}`);
 });

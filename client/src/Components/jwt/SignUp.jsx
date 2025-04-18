@@ -15,17 +15,17 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!email || !password) {
       toast.error("Please enter both email and password");
       return;
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/signup", {
+      const res = await axios.post("https://pumaclone-production.up.railway.app/api/auth/signup", {
         email,
         password,
       });
+
       localStorage.setItem("userEmail", email);
       toast.success("🎉 Signup successful! Please log in.");
       navigate("/login");
