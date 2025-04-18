@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
 const cartRoutes = require("./routes/cartRoutes");
-
+const serverless = require("serverless-http");
 dotenv.config();
 
 const app = express();
@@ -24,3 +24,4 @@ app.get("/", (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log(`🚀 Server running at http://localhost:${process.env.PORT}`);
 });
+module.exports.handler = serverless(app);
