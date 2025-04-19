@@ -36,7 +36,6 @@ const AboutUsCarousel = () => {
                 transition={{ duration: 1 }}
             />
 
-
             <div className="flex flex-col justify-center w-full md:w-[40%] text-center md:text-left">
                 <motion.p
                     className="uppercase font-bold text-xl md:text-4xl text-gray-700"
@@ -49,7 +48,7 @@ const AboutUsCarousel = () => {
                 </motion.p>
 
                 <motion.p
-                    className="mt-4 text-3xl font-light md:text-5xl  text-gray-800"
+                    className="mt-4 text-3xl font-light md:text-5xl text-gray-800"
                     key={current}
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
