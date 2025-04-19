@@ -24,6 +24,35 @@ A full-stack e-commerce web application inspired by [PUMA](https://puma-clone-zp
 
 ---
 
+## 📸 Screenshots
+
+### 🏠 Home Page
+![Home Page](client/ScreenShots/HomePage.png)
+
+### 🔐 Login Page
+![Login Page](client/ScreenShots/Login.png)
+
+### 🛒 Cart Page
+![Cart Page](client/ScreenShots/Cart.png)
+
+### ❤️ Liked Products Page
+![Liked Products](client/ScreenShots/like.png)
+
+### 🤝 Collaborations Page
+![Search Page](client/ScreenShots/collaborations.png)
+
+### 🔍 About Page
+![Search Page](client/ScreenShots/AboutUS.png)
+
+### 🚺 Womens Page
+![Search Page](client/ScreenShots/womensection.png)
+
+### 🏺 Items Page
+![Search Page](client/ScreenShots/Items.png)
+
+### ⚽ Sports Page
+![Search Page](client/ScreenShots/Sports.png)
+
 ## 🔐 Authentication Flow
 
 - Users sign up and log in using **email & password**
