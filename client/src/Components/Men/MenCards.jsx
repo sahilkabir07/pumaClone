@@ -16,13 +16,10 @@ const MenCards = () => {
         }
 
         try {
-            // Call the API function to add the item to the cart, passing the token and item
             await addToCartAPI(token, item);
 
-            // Set the addedToCart state to reflect that the item was added to the cart
             setAddedToCart((prev) => ({ ...prev, [item.id]: true }));
 
-            // Reset the addedToCart state after 3 seconds to show the button again
             setTimeout(() => {
                 setAddedToCart((prev) => ({ ...prev, [item.id]: false }));
             }, 3000);

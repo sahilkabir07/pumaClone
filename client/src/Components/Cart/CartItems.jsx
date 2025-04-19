@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import getCart from "../../../utils/getCarts";
 
 const CartItems = () => {
-    const BASE_URL = import.meta.env.VITE_BASE_URL
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
 
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -40,14 +41,15 @@ const CartItems = () => {
         setLoadingActions((prev) => ({ ...prev, decrease: true }));
 
         try {
-            const res = await fetch(`${BASE_URL}api/cart/decrease/${productId}`, {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (!res.ok) throw new Error("Failed to decrease quantity");
+            await axios.post(
+                `${BASE_URL}api/cart/decrease/${productId}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             fetchCartItems();
         } catch (error) {
             console.error("Error decreasing quantity:", error.message);
@@ -60,42 +62,33 @@ const CartItems = () => {
         if (loadingActions.remove) return;
         setLoadingActions((prev) => ({ ...prev, remove: true }));
 
-        setCartItems((prevItems) => prevItems.filter(item => item._id !== productId));
+        setCartItems((prevItems) => prevItems.filter((item) => item._id !== productId));
 
         try {
-            const res = await fetch(`${BASE_URL}api/cart/remove/${productId}`, {
-                method: "DELETE",
+            await axios.delete(`${BASE_URL}api/cart/remove/${productId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
-            if (!res.ok) throw new Error("Failed to remove item");
             fetchCartItems();
         } catch (error) {
             console.error("Error removing item:", error.message);
-
-            setCartItems((prevItems) => [...prevItems]);
+            fetchCartItems();
         } finally {
             setLoadingActions((prev) => ({ ...prev, remove: false }));
         }
     };
-
-
 
     const clearCart = async () => {
         if (loadingActions.clear) return;
         setLoadingActions((prev) => ({ ...prev, clear: true }));
 
         try {
-            const res = await fetch(`${BASE_URL}api/cart/clear`, {
-                method: "DELETE",
+            await axios.delete(`${BASE_URL}api/cart/clear`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
-            if (!res.ok) throw new Error("Failed to clear cart");
             fetchCartItems();
         } catch (error) {
             console.error("Error clearing cart:", error.message);
