@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../AuthContext";
 
 export const Login = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const emailRef = useRef(null);
@@ -25,7 +26,7 @@ export const Login = () => {
     }
 
     try {
-      const res = await axios.post("http://pumaclone-production.up.railway.app/api/auth/login", {
+      const res = await axios.post(`${BASE_URL}api/auth/login`, {
         email,
         password,
       });

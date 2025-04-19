@@ -1,6 +1,8 @@
 const getCart = async (token) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
   try {
-    const res = await fetch("http://localhost:5000/api/cart", {
+    const res = await fetch(`${BASE_URL}api/cart`, {
       headers: {
         Authorization: `Bearer ${token}`, // Ensure token is sent in the headers
       },

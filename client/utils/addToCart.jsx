@@ -2,6 +2,7 @@ import axios from "axios";
 import { jwtDecode } from 'jwt-decode';
 
 const addToCart = async (token, product) => {
+    const BASE_URL = import.meta.env.VITE_BASE_URL
     if (!token) {
         throw new Error("User must be logged in to add items to the cart");
     }
@@ -44,7 +45,7 @@ const addToCart = async (token, product) => {
         console.log("Adding product to cart:", payload);
 
         const response = await axios.post(
-            "http://localhost:5000/api/cart/add",
+            `${BASE_URL}api/cart/add`,
             payload,
             {
                 headers: {

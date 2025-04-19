@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Signup = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const emailRef = useRef(null);
@@ -21,7 +22,7 @@ const Signup = () => {
     }
 
     try {
-      const res = await axios.post("https://pumaclone-production.up.railway.app/api/auth/signup", {
+      const res = await axios.post(`${BASE_URL}api/auth/signup`, {
         email,
         password,
       });

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import getCart from "../../../utils/getCarts";
 
 const CartItems = () => {
+    const BASE_URL = import.meta.env.VITE_BASE_URL
+
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -38,7 +40,7 @@ const CartItems = () => {
         setLoadingActions((prev) => ({ ...prev, decrease: true }));
 
         try {
-            const res = await fetch(`http://localhost:5000/api/cart/decrease/${productId}`, {
+            const res = await fetch(`${BASE_URL}api/cart/decrease/${productId}`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -61,7 +63,7 @@ const CartItems = () => {
         setCartItems((prevItems) => prevItems.filter(item => item._id !== productId));
 
         try {
-            const res = await fetch(`http://localhost:5000/api/cart/remove/${productId}`, {
+            const res = await fetch(`${BASE_URL}api/cart/remove/${productId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -86,7 +88,7 @@ const CartItems = () => {
         setLoadingActions((prev) => ({ ...prev, clear: true }));
 
         try {
-            const res = await fetch("http://localhost:5000/api/cart/clear", {
+            const res = await fetch(`${BASE_URL}api/cart/clear`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
