@@ -5,16 +5,16 @@ import { FaRegHeart } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 import { FaRegCircleXmark, FaRegUser } from "react-icons/fa6";
 import { useState, useEffect, useContext } from 'react';
-import NewDropDown from './NewDropDown';
+import NewDropDown from '../Home/NewDropDown';
 import { motion } from 'framer-motion';
-import WomenDropdown from './WomenDropdown';
-import MenDropdown from './MenDropdown';
-import KidsDropdown from './KidsDropdown';
-import MotorDropdown from './MotorDropdown';
-import CollabDropdown from './CollabDropdown';
-import SportsDropdown from './SportsDropdown';
+import WomenDropdown from '../Home/WomenDropdown';
+import MenDropdown from '../Home/MenDropdown';
+import KidsDropdown from '../Home/KidsDropdown';
+import MotorDropdown from '../Home/MotorDropdown';
+import CollabDropdown from '../Home/CollabDropdown';
+import SportsDropdown from '../Home/SportsDropdown';
 import { useNavigate } from 'react-router-dom';
-import { SearchContext } from '../SearchContext';
+import { SearchContext } from '../../SearchContext';
 
 const Header = ({ loadingBarRef }) => {
   const offers = ["EXTRA 5% DISCOUNT AND FREE SHIPPING ON ALL ONLINE PAYMENTS", "⚡1-DAY EXPRESS DELIEVERY NOW AVAILABLE IN PATNA", "FREE RETURNS AND FREE EXCHANGE", "SOLVE YOUR QUERIES FASTER THAN EVER. SEND US A HI! ON WHATSAPP 6392839328"];

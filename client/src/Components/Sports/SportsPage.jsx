@@ -2,7 +2,7 @@ import React from 'react'
 import OfferBanner from '../Trending/OfferBanner'
 import SportsCards from './SportsCards'
 import TagsCard from '../Trending/TagsCard'
-import Cards from '../Cards'
+import Cards from '../Home/Cards'
 
 const SportsPage = () => {
     return (

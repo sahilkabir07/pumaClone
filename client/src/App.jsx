@@ -4,9 +4,9 @@ import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import "./App.css";
 
-import Footer from "./Components/Footer";
-import Header from "./Components/Header";
-import HomePage from "./Components/HomePage";
+import Footer from "./Components/Common/Footer";
+import Header from "./Components/Common/Header";
+import HomePage from "./Components/Home/HomePage";
 import NewPage from "./Components/Trending/NewPage";
 import WomenPage from "./Components/Women/WomenPage";
 import MenPage from "./Components/Men/MenPage";
