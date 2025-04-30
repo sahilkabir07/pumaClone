@@ -4,12 +4,15 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const authRoutes = require("../routes/authRoutes");
 const cartRoutes = require("../routes/cartRoutes");
+const productRoutes = require("../routes/productRoutes");
 const serverless = require("serverless-http");
 
 dotenv.config();
 
 const app = express();
+
 app.use(cors());
+
 app.use(express.json());
 
 mongoose
@@ -19,9 +22,10 @@ mongoose
 
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/products", productRoutes);
 
 app.get("/", (req, res) => {
-  res.send("hii..");
+  res.send("hi.. server is live 🔥");
 });
 
 module.exports = app;

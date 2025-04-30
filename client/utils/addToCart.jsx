@@ -1,48 +1,22 @@
 import axios from "axios";
-import { jwtDecode } from 'jwt-decode';
 
 const addToCart = async (token, product) => {
     const BASE_URL = import.meta.env.VITE_BASE_URL
+
     if (!token) {
         throw new Error("User must be logged in to add items to the cart");
     }
 
     try {
-        const decodedToken = jwtDecode(token);
-        const userId = decodedToken._id;
-
-        if (!userId) {
-            throw new Error("User ID not found in token");
-        }
-
-        let rawPrice = product.price;
-        if (!rawPrice) {
-            throw new Error('Product price is missing');
-        }
-
-        if (typeof rawPrice === 'string') {
-            rawPrice = rawPrice.replace(/[^\d.]/g, '');
-        }
-
-        const price = parseFloat(rawPrice);
-        if (isNaN(price)) {
-            throw new Error(`Invalid price format: ${product.price}`);
-        }
-
-        if (!product.id) {
-            throw new Error("Product ID is missing");
-        }
-
         const payload = {
-            productId: product.id.toString(),
+            productId: product.productId || product._id,
             name: product.name,
             img: product.img,
-            price,
-            quantity: 1,
-            userId,
+            price: product.price,
+            quantity: product.quantity > 0 ? product.quantity : 1,
         };
 
-        console.log("Adding product to cart:", payload);
+        console.log("🚀 Payload for cart:", payload);
 
         const response = await axios.post(
             `${BASE_URL}api/cart/add`,
@@ -50,16 +24,18 @@ const addToCart = async (token, product) => {
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
                 },
             }
         );
 
+        console.log("✅ Product added to cart successfully:", response.data);
         return response.data;
     } catch (error) {
-        console.error("Error adding to cart:", error.response?.data || error.message);
-        throw new Error(error.response?.data?.message || "An error occurred while adding to the cart");
+        const errorMessage = error.response?.data?.message || "An error occurred while adding to the cart";
+        console.error("❌ Error adding to cart:", errorMessage);
+        throw new Error(errorMessage);
     }
 };
-
 
 export default addToCart;

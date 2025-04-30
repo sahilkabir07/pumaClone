@@ -3,8 +3,9 @@ import axios from "axios";
 import getCart from "../../../utils/getCarts";
 
 const CartItems = () => {
-    const BASE_URL = import.meta.env.VITE_BASE_URL;
+    const BASE_URL = import.meta.env.VITE_BASE_URL
 
+    const [token, setToken] = useState(null);
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -14,17 +15,17 @@ const CartItems = () => {
         clear: false,
     });
 
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-        return <div className="text-center text-red-500">You must be logged in to view the cart.</div>;
-    }
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        setToken(storedToken);
+    }, []);
 
     const fetchCartItems = async () => {
+        if (!token) return;
         setLoading(true);
         try {
             const data = await getCart(token);
-            setCartItems(data);
+            setCartItems(data.items || []);
         } catch (error) {
             setError(error.message);
         } finally {
@@ -33,11 +34,17 @@ const CartItems = () => {
     };
 
     useEffect(() => {
-        fetchCartItems();
-    }, []);
+        if (token) {
+            fetchCartItems();
+        }
+    }, [token]);
 
-    const decreaseQuantity = async (productId) => {
+    const extractProductId = (productId) =>
+        typeof productId === "object" && productId._id ? productId._id : productId;
+
+    const decreaseQuantity = async (productIdRaw) => {
         if (loadingActions.decrease) return;
+        const productId = extractProductId(productIdRaw);
         setLoadingActions((prev) => ({ ...prev, decrease: true }));
 
         try {
@@ -48,6 +55,7 @@ const CartItems = () => {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                    withCredentials: true,
                 }
             );
             fetchCartItems();
@@ -58,22 +66,27 @@ const CartItems = () => {
         }
     };
 
-    const removeItem = async (productId) => {
+    const removeItem = async (productIdRaw) => {
         if (loadingActions.remove) return;
+        const productId = extractProductId(productIdRaw);
         setLoadingActions((prev) => ({ ...prev, remove: true }));
 
-        setCartItems((prevItems) => prevItems.filter((item) => item._id !== productId));
+        const updatedCart = cartItems.filter(
+            (item) => extractProductId(item.productId) !== productId
+        );
+        setCartItems(updatedCart);
 
         try {
             await axios.delete(`${BASE_URL}api/cart/remove/${productId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
+                withCredentials: true,
             });
             fetchCartItems();
         } catch (error) {
             console.error("Error removing item:", error.message);
-            fetchCartItems();
+            setCartItems(cartItems); // Revert in case of error
         } finally {
             setLoadingActions((prev) => ({ ...prev, remove: false }));
         }
@@ -88,6 +101,7 @@ const CartItems = () => {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
+                withCredentials: true,
             });
             fetchCartItems();
         } catch (error) {
@@ -98,8 +112,23 @@ const CartItems = () => {
     };
 
     const calculateTotal = () => {
-        return cartItems.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
+        return cartItems.reduce(
+            (sum, item) => sum + item.price * (item.quantity || 1),
+            0
+        );
     };
+
+    if (token === null) {
+        return <p className="text-center text-gray-500 mt-10">Checking login status...</p>;
+    }
+
+    if (!token) {
+        return (
+            <div className="text-center text-red-500 mt-10">
+                You must be logged in to view the cart.
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen pt-24 pb-24 bg-gray-100">
@@ -109,7 +138,9 @@ const CartItems = () => {
                 {loading ? (
                     <p className="text-gray-500 text-center">Loading cart...</p>
                 ) : error ? (
-                    <p className="text-red-500 text-center">Failed to load cart. Please try again later.</p>
+                    <p className="text-red-500 text-center">
+                        Failed to load cart. Please try again later.
+                    </p>
                 ) : cartItems.length > 0 ? (
                     <>
                         <div className="flex justify-end mb-4 mr-6">
@@ -122,37 +153,41 @@ const CartItems = () => {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-                            {cartItems.map((item) => (
-                                <div
-                                    key={item._id}
-                                    className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center"
-                                >
-                                    <img
-                                        src={item.img}
-                                        alt={item.name}
-                                        className="w-32 h-32 object-cover rounded-md"
-                                    />
-                                    <h3 className="text-xl font-semibold mt-3">{item.name}</h3>
-                                    <p className="text-lg text-gray-600">₹{item.price}</p>
-                                    <div className="flex items-center gap-3 mt-3">
-                                        <button
-                                            onClick={() => decreaseQuantity(item._id)}
-                                            className="bg-gray-300 text-gray-800 px-2 py-1 rounded-full"
-                                            disabled={item.quantity <= 1}
-                                        >
-                                            -
-                                        </button>
-                                        <span>{item.quantity}</span>
-                                        <button
-                                            onClick={() => removeItem(item._id)}
-                                            className="bg-red-600 text-white px-3 py-1 rounded-full"
-                                        >
-                                            Remove
-                                        </button>
+                            {cartItems.map((item) => {
+                                const productId = extractProductId(item.productId);
+                                return (
+                                    <div
+                                        key={productId}
+                                        className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center"
+                                    >
+                                        <img
+                                            src={item.img}
+                                            alt={item.name}
+                                            className="w-32 h-32 object-cover rounded-md"
+                                        />
+                                        <h3 className="text-xl font-semibold mt-3">{item.name}</h3>
+                                        <p className="text-lg text-gray-600">₹{item.price}</p>
+                                        <div className="flex items-center gap-3 mt-3">
+                                            <button
+                                                onClick={() => decreaseQuantity(item.productId)}
+                                                className="bg-gray-300 text-gray-800 px-2 py-1 rounded-full"
+                                                disabled={item.quantity <= 1}
+                                            >
+                                                -
+                                            </button>
+                                            <span>{item.quantity}</span>
+                                            <button
+                                                onClick={() => removeItem(item.productId)}
+                                                className="bg-red-600 text-white px-3 py-1 rounded-full"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
+
                         <div className="flex justify-end p-4 text-lg">
                             <p>Total: ₹{calculateTotal().toFixed(2)}</p>
                         </div>
