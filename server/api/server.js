@@ -11,35 +11,30 @@ dotenv.config();
 
 const app = express();
 
-// CORS Setup (Add all necessary headers)
-app.use(
-  cors({
-    origin: "https://puma-clone-zpmn.vercel.app", // Your frontend
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: "https://puma-clone-zpmn.vercel.app",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-// Enable preflight (important for Vercel + serverless)
-app.options("*", cors());
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use(express.json());
 
-// MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB connection failed:", err));
 
-// API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/products", productRoutes);
 
-// Root Route
 app.get("/", (req, res) => {
   res.send("hi.. server is live 🔥");
 });
 
-// Export for Vercel
 module.exports = app;
 module.exports.handler = serverless(app);
