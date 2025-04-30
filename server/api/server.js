@@ -13,14 +13,11 @@ const app = express();
 
 const corsOptions = {
   origin: "https://puma-clone-zpmn.vercel.app",
-  credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
-
-app.options("*", cors(corsOptions));
 
 app.use(express.json());
 

@@ -30,6 +30,8 @@ export const Login = () => {
       const res = await axios.post(`${BASE_URL}api/auth/login`, {
         email,
         password,
+      }, {
+        withCredentials: true,
       });
 
       const { token } = res.data;
@@ -44,6 +46,7 @@ export const Login = () => {
       toast.error("Login failed: " + (error.response?.data?.message || error.message));
     }
   };
+
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
