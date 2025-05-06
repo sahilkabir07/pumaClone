@@ -1,29 +1,24 @@
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const authRoutes = require("../routes/authRoutes");
 const cartRoutes = require("../routes/cartRoutes");
 const productRoutes = require("../routes/productRoutes");
 const serverless = require("serverless-http");
-
-dotenv.config();
+require("dotenv").config();
 
 const app = express();
 
 // CORS options
 const corsOptions = {
-  origin: "https://puma-clone-zpmn.vercel.app", // Your frontend domain
+  origin: "https://puma-clone-zpmn.vercel.app", // no trailing slash
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-// Apply CORS middleware globally
+// Apply CORS middleware globally (automatically handles OPTIONS pre-flights)
 app.use(cors(corsOptions));
-
-// ✅ Handle preflight (OPTIONS) requests explicitly
-app.options("*", cors(corsOptions));
 
 // Parse JSON
 app.use(express.json());
@@ -44,6 +39,12 @@ app.get("/", (req, res) => {
   res.send("hi.. server is live 🔥");
 });
 
-// Export app
+// Only start listening when run directly (so serverless handler still works)
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`🚀 Server listening on port ${PORT}`));
+}
+
+// Export for serverless and testing
 module.exports = app;
 module.exports.handler = serverless(app);
