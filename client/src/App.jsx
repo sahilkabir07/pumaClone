@@ -56,7 +56,6 @@ const AppRoutes = ({ user, loadingBarRef }) => {
           <Route path="/Liked" element={user ? <LikedPage /> : <Navigate to="/login" />} />
           <Route path="/AboutUs" element={user ? <AboutUsPage /> : <Navigate to="/login" />} />
           <Route path="/search" element={user ? <SearchResults /> : <Navigate to="/login" />} />
-
           <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
           <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />} />
           <Route path="/logout" element={<Logout />} />
