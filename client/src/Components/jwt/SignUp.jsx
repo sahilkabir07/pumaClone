@@ -28,7 +28,7 @@ const Signup = () => {
       });
 
       localStorage.setItem("userEmail", email);
-      toast.success("🎉 Signup successful! Please log in.");
+      toast.success(" Signup successful! Please log in.");
       navigate("/login");
     } catch (err) {
       toast.error("Signup failed: " + (err.response?.data?.message || err.message));
@@ -64,6 +64,15 @@ const Signup = () => {
             Signup
           </button>
         </form>
+        <div className="text-center mt-4">
+          <span>Already have an account? </span>
+          <button
+            onClick={() => navigate("/login")}
+            className="text-blue-600 font-semibold"
+          >
+            Login
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -5,9 +5,7 @@ const mongoose = require("mongoose");
 const authRoutes = require("../routes/authRoutes");
 const cartRoutes = require("../routes/cartRoutes");
 const serverless = require("serverless-http");
-
 dotenv.config();
-
 const app = express();
 app.use(
   cors({

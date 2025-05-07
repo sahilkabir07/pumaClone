@@ -47,7 +47,6 @@ export const Login = () => {
     }
   };
 
-
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 w-96">
@@ -78,6 +77,15 @@ export const Login = () => {
             Login
           </button>
         </form>
+        <div className="text-center mt-4">
+          <span>Don't have an account? </span>
+          <button
+            onClick={() => navigate("/signup")}
+            className="text-blue-600 font-semibold"
+          >
+            Sign Up
+          </button>
+        </div>
       </div>
     </div>
   );
