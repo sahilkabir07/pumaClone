@@ -11,10 +11,11 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: "https://puma-clone-u3dc.vercel.app",
+    origin: (origin, callback) => callback(null, true),
     credentials: true,
   })
 );
+
 app.use(express.json());
 
 mongoose

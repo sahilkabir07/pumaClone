@@ -146,8 +146,6 @@ router.delete("/remove/:productId", authenticateToken, async (req, res) => {
 router.delete("/clear", authenticateToken, async (req, res) => {
   const userId = req.user._id;
 
-  console.log("🔵 /api/cart/clear route hit");
-
   try {
     let cart = await Cart.findOne({ userId });
 
@@ -171,8 +169,6 @@ router.delete("/clear", authenticateToken, async (req, res) => {
 
 router.get("/", authenticateToken, async (req, res) => {
   const userId = req.user._id;
-
-  console.log("🔵 /api/cart (GET) route hit");
 
   try {
     const cart = await Cart.findOne({ userId }).populate("items.productId");
