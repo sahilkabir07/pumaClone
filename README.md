@@ -1,6 +1,6 @@
 # 🐾 Puma Clone – Full Stack E-Commerce Application
 
-A full-stack e-commerce web application inspired by [PUMA](https://puma-clone-zpmn.vercel.app/), built with **React**, **Node.js**, **Express.js**, **MongoDB**, and **JWT-based authentication**.
+A full-stack e-commerce web application inspired by [PUMA](https://puma-clone-u3dc.vercel.app/), built with **React**, **Node.js**, **Express.js**, **MongoDB**, and **JWT-based authentication**.
 
 > 🔐 Recently migrated from Firebase Authentication to a fully custom **JWT Auth system** for enhanced control, scalability, and real-world backend integration.
 
