@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: "https://sahil-s-project-cbav.vercel.app",
+    origin: "https://puma-clone-u3dc.vercel.app/",
     credentials: true,
   })
 );
