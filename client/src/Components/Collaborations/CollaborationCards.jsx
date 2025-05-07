@@ -5,6 +5,7 @@ import useLikes from "../Liked/Liked";
 import addToCartAPI from "../../../utils/addToCart";
 
 const CollaborationCards = () => {
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
     const { likedItems, toggleLike } = useLikes();
     const [addedToCart, setAddedToCart] = useState({});
     const [collabData, setCollabData] = useState([]);
@@ -14,7 +15,7 @@ const CollaborationCards = () => {
     useEffect(() => {
         const fetchCollabProducts = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/api/products/collaboration");
+                const res = await axios.get(`${BASE_URL}api/products/collaboration`);
                 console.log("Fetched collaboration products from API:", res.data);
                 setCollabData(res.data);
             } catch (err) {

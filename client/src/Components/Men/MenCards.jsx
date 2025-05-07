@@ -5,6 +5,7 @@ import useLikes from "../Liked/Liked";
 import addToCartAPI from "../../../utils/addToCart";
 
 const MenCards = () => {
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
     const { likedItems, toggleLike } = useLikes();
     const [addedToCart, setAddedToCart] = useState({});
     const [menData, setMenData] = useState([]);
@@ -14,7 +15,7 @@ const MenCards = () => {
     useEffect(() => {
         const fetchMenProducts = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/api/products/men");
+                const res = await axios.get(`${BASE_URL}api/products/men`);
                 console.log("Fetched men products from API:", res.data);
                 setMenData(res.data);
             } catch (err) {

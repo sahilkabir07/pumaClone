@@ -5,6 +5,7 @@ import useLikes from "../Liked/Liked";
 import addToCartAPI from "../../../utils/addToCart";
 
 const KidsCards = () => {
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
     const { likedItems, toggleLike } = useLikes();
     const [addedToCart, setAddedToCart] = useState({});
     const [kidsData, setKidsData] = useState([]);
@@ -14,7 +15,7 @@ const KidsCards = () => {
     useEffect(() => {
         const fetchKidsProducts = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/api/products/kids");
+                const res = await axios.get(`${BASE_URL}api/products/kids`);
                 console.log("Fetched kids products from API:", res.data);
                 setKidsData(res.data);
             } catch (err) {

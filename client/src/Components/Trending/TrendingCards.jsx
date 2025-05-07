@@ -5,6 +5,7 @@ import useLikes from "../Liked/Liked";
 import addToCartAPI from "../../../utils/addToCart";
 
 const TrendingCards = () => {
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
     const { likedItems, toggleLike } = useLikes();
     const [addedToCart, setAddedToCart] = useState({});
     const [trendingData, setTrendingData] = useState([]);
@@ -14,7 +15,7 @@ const TrendingCards = () => {
     useEffect(() => {
         const fetchTrendingProducts = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/api/products/trending");
+                const res = await axios.get(`${BASE_URL}api/products/trending`);
                 console.log("Fetched trending products:", res.data);
                 setTrendingData(res.data);
             } catch (err) {
