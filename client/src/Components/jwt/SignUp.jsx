@@ -28,7 +28,7 @@ const Signup = () => {
       });
 
       localStorage.setItem("userEmail", email);
-      toast.success(" Signup successful! Please log in.");
+      toast.success("🎉 Signup successful! Please log in.");
       navigate("/login");
     } catch (err) {
       toast.error("Signup failed: " + (err.response?.data?.message || err.message));

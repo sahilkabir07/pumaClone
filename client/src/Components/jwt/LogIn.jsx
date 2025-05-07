@@ -47,6 +47,7 @@ export const Login = () => {
     }
   };
 
+
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 w-96">
