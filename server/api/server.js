@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const authRoutes = require("../routes/authRoutes");
 const cartRoutes = require("../routes/cartRoutes");
+const productRoutes = require("../routes/productRoutes");
 const serverless = require("serverless-http");
 
 dotenv.config();
