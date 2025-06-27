@@ -12,9 +12,10 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
+  { collection: "members" }
 );
 
-const User = mongoose.model("User", userSchema, "member");
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
